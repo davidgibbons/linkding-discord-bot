@@ -11,7 +11,7 @@ import re
 import aiolinkding
 import configargparse
 import discord
-import discordhealthcheck
+
 
 
 def init_logger(verbose=False):
@@ -56,7 +56,7 @@ def main():
 
     discord_client = discord.Client(intents=intents)
     linkding_client = aiolinkding.Client(arguments.linkding_url, arguments.linkding_token)
-    discordhealthcheck.start(discord_client, port=4040)
+ 
     @discord_client.event
     async def on_ready():
         logging.info("We have logged in as %s", {discord_client.user})
