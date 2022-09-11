@@ -31,8 +31,10 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{ with .Values.env}}
           env:
-            {{- toYaml .Values.securityContext | nindent 12 }}            
+            {{- toYaml . | nindent 12 }}
+          {{- end}}
           ports:
             - name: healthcheck
               containerPort: 4040

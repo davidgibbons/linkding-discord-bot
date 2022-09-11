@@ -27,7 +27,13 @@ podAnnotations: {}
 
 podSecurityContext: {}
   # fsGroup: 2000
-
+env: 
+  - name: DISCORD_TOKEN
+    value: <setme>
+  - name: LINKDING_TOKEN
+    value: <setme>
+  - name: LINKDING_URL
+    value: <setme>  
 securityContext: 
   capabilities:
      drop:
