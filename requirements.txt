@@ -1,0 +1,4 @@
+discord
+discordhealthcheck
+configargparse
+aiolinkding

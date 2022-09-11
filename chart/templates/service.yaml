@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "linkding-discord-bot.fullname" . }}
+  labels:
+    {{- include "linkding-discord-bot.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: healthcheck
+      protocol: TCP
+      name: healthcheck
+  selector:
+    {{- include "linkding-discord-bot.selectorLabels" . | nindent 4 }}
