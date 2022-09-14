@@ -35,7 +35,7 @@ jobs:
           context: .
           # Note: tags has to be all lower-case
           tags: |
-            davidgibbons/linkding-discord-bot:latest 
+            dgibbons/linkding-discord-bot:latest 
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/main' }}
 
