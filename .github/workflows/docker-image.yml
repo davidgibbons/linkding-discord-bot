@@ -12,11 +12,20 @@ jobs:
     # run only when code is compiling and tests are passing
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+
     # steps to perform in job
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
+      - name: Install Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.8.1
       # setup Docker buld action
       - name: Set up Docker Buildx
         id: buildx
