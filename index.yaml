@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   linkding-discord-bot:
   - apiVersion: v2
+    appVersion: 1.2.0
+    created: "2023-03-22T17:56:52.343042478Z"
+    description: A Helm chart for Kubernetes
+    digest: 2eb42601681fbd102458eee5c0b2c134e8b38d8589d8ba7a01d1b9b7d98e5df9
+    name: linkding-discord-bot
+    type: application
+    urls:
+    - https://github.com/davidgibbons/linkding-discord-bot/releases/download/linkding-discord-bot-0.1.4/linkding-discord-bot-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
     appVersion: 1.16.0
     created: "2022-09-21T23:33:08.224409547Z"
     description: A Helm chart for Kubernetes
@@ -31,4 +41,4 @@ entries:
     urls:
     - https://github.com/davidgibbons/linkding-discord-bot/releases/download/linkding-discord-bot-0.1.1/linkding-discord-bot-0.1.1.tgz
     version: 0.1.1
-generated: "2022-09-21T23:33:08.224421847Z"
+generated: "2023-03-22T17:56:52.343061478Z"
