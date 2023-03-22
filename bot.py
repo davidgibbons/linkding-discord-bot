@@ -11,7 +11,7 @@ import re
 import aiolinkding
 import configargparse
 import discord
-
+from urllib.parse import urlparse
 
 
 def init_logger(verbose=False):
@@ -20,11 +20,27 @@ def init_logger(verbose=False):
         level=logging.DEBUG if verbose else logging.INFO
     )
 
-def parse_url(string):
-    """ Returns our url and any tags as a string"""
-    regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))\s?(.*)"
-    url = re.search(regex,string)
-    return url.group(1,6)
+def extract_urls(text):
+    words = text.split()
+    urls = []
+
+    for word in words:
+        parsed_url = urlparse(word)
+        if parsed_url.scheme and parsed_url.netloc:
+            urls.append(word)
+
+    return urls
+
+
+def extract_tags(text, urls):
+    words = text.split()
+    tags = []
+
+    for word in words:
+        if word not in urls:
+            tags.append(word)
+
+    return tags
 
 def parse_arguments():
     """ Get our arguments from cli or env """
@@ -60,21 +76,25 @@ def main():
     @discord_client.event
     async def on_ready():
         logging.info("We have logged in as %s", {discord_client.user})
+        
     @discord_client.event
     async def on_message(message):
         if message.author == discord_client.user:
-            return
-
-        url, tags = parse_url(message.content)
-        tags = uniq(tags.split())
+                return
+        urls = extract_urls(message.content)
+        tags = extract_tags(message.content, urls)
+        #url, tags = parse_url(message.content)
+        #tags = uniq(tags.split())
         logging.debug("Url: %s\n tags: %s", url, tags)
-
-        created_bookmark = await linkding_client.bookmarks.async_create(
-            url,
-            tag_names=tags
-        )
-        logging.info("Created bookmark: %s", created_bookmark)
-
+        for url in urls:
+            created_bookmark = await linkding_client.bookmarks.async_create(
+                url,
+                tag_names=tags
+            )
+            logging.info("Created bookmark: %s", created_bookmark)
+            # Reply with the created bookmark's URL
+            reply = f"Bookmark created: {created_bookmark.url}"
+            await message.channel.send(reply)
     discord_client.run(arguments.discord_token)
 
 
